@@ -1,0 +1,8 @@
+#input {
+    box-shadow: none!important;
+}
+
+#errorMsg {
+    color: red;
+    display: none;
+}
