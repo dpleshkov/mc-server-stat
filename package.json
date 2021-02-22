@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/dpleshkov/mc-server-stat#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "minecraft-pinger": "^1.0.5"
   }
