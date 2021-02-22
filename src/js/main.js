@@ -17,32 +17,40 @@ const parseDescription = function(description) {
     return desc;
 }
 
-input.addEventListener("keyup", async (evt) => {
-    if (evt.key === "Enter") {
-        let value = input.value;
-        input.value = "";
-        button.innerText = "Pinging...";
-        try {
-            document.getElementById("errorMsg").setAttribute("style", "display: none");
-            let status = await axios.get(`/status/${value}`);
-            if (status.data.error) {
-                document.getElementById("errorMsg").setAttribute("style", "display: inherit");
-                button.innerText = "Get Status";
-                return;
-            }
-            document.getElementById("statusIp").innerText = value;
-            document.getElementById("statusVersion").innerText = JSON.stringify(status.data.version.name);
-            document.getElementById("statusPlayers").innerText = JSON.stringify(status.data.players.online) + "/" + JSON.stringify(status.data.players.max);
-            document.getElementById("statusMOTD").innerText = parseDescription(status.data.description);
-            modal.show();
-            button.innerText = "Get Status";
-        } catch (err) {
-            console.log(err);
+const getStatus = async function() {
+    let value = input.value;
+    input.value = "";
+    button.innerText = "Pinging...";
+    try {
+        document.getElementById("errorMsg").setAttribute("style", "display: none");
+        let status = await axios.get(`/status/${value}`);
+        if (status.data.error) {
             document.getElementById("errorMsg").setAttribute("style", "display: inherit");
             button.innerText = "Get Status";
+            return;
         }
+        document.getElementById("statusIp").innerText = value;
+        document.getElementById("statusVersion").innerText = JSON.stringify(status.data.version.name);
+        document.getElementById("statusPlayers").innerText = JSON.stringify(status.data.players.online) + "/" + JSON.stringify(status.data.players.max);
+        document.getElementById("statusMOTD").innerText = parseDescription(status.data.description);
+        modal.show();
+        button.innerText = "Get Status";
+    } catch (err) {
+        console.log(err);
+        document.getElementById("errorMsg").setAttribute("style", "display: inherit");
+        button.innerText = "Get Status";
+    }
+}
+
+input.addEventListener("keyup", async (evt) => {
+    if (evt.key === "Enter") {
+        await getStatus();
     }
 });
+
+button.addEventListener("click", async (evt) => {
+    await getStatus();
+})
 
 let exampleJSON = {
     "version": {
