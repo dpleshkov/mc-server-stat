@@ -1,0 +1,24 @@
+{
+  "name": "mc-server-stat",
+  "version": "0.1.0",
+  "description": "Tool to check status of a Minecraft server",
+  "main": "main.js",
+  "scripts": {
+    "test": "node main.js",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dpleshkov/mc-server-stat.git"
+  },
+  "author": "Dmitry Pleshkov",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/dpleshkov/mc-server-stat/issues"
+  },
+  "homepage": "https://github.com/dpleshkov/mc-server-stat#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "minecraft-pinger": "^1.0.5"
+  }
+}
