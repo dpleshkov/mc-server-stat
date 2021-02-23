@@ -17,7 +17,6 @@ app.get("/status/:ip", async(req, res) => {
     let port = Number(ip.split(":")[1]) || 25565;
     try {
         let status = await pinger.pingPromise(hostname, port);
-        console.log(JSON.stringify(status));
         return res.json(status);
     } catch(err) {
         return res.json({"error":true});
