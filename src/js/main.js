@@ -16,7 +16,16 @@ const parseDescription = function(description) {
     desc += description.text;
     return desc;
 }
-
+const parsePlayerListSample = function(sample) {
+    let output = "";
+    if (typeof sample !== "object") {
+        return output;
+    }
+    for (let playerIndex in sample) {
+        output += "\n" + sample[playerIndex].name;
+    }
+    return output;
+}
 const getStatus = async function() {
     let value = input.value;
     input.value = "";
@@ -33,6 +42,20 @@ const getStatus = async function() {
         document.getElementById("statusVersion").innerText = JSON.stringify(status.data.version.name);
         document.getElementById("statusPlayers").innerText = JSON.stringify(status.data.players.online) + "/" + JSON.stringify(status.data.players.max);
         document.getElementById("statusMOTD").innerText = parseDescription(status.data.description);
+        if (status.data.players.sample) {
+            let playerList = parsePlayerListSample(status.data.players.sample);
+            console.log(playerList);
+            if (playerList.length) {
+                document.getElementById("statusPlayersSample").innerText = playerList;
+                document.getElementById("statusPlayersSampleSpan").setAttribute("style", "display: inherit");
+            } else {
+                document.getElementById("statusPlayersSampleSpan").setAttribute("style", "display: none");
+            }
+        } else {
+            console.log("Tf");
+            document.getElementById("statusPlayersSampleSpan").setAttribute("style", "display: none");
+        }
+        console.log(status.data);
         modal.show();
         button.innerText = "Get Status";
     } catch (err) {
@@ -50,15 +73,4 @@ input.addEventListener("keyup", async (evt) => {
 
 button.addEventListener("click", async (evt) => {
     await getStatus();
-})
-
-let exampleJSON = {
-    "version": {
-        "name": "Waterfall 1.8.x, 1.9.x, 1.10.x, 1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x",
-        "protocol": 736
-    },
-    "players": {"max": 1337, "online": 2},
-    "description": {"extra": [{"text": "UninvitedSF Community Server"}], "text": ""},
-    "modinfo": {"type": "FML", "modList": []},
-    "ping": 13
-}
+});
